@@ -3,6 +3,7 @@ const fs = require('fs');
 const Manager = require('./lib/manager.js');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
+const directory = [];
 
 
 function addManager(){
@@ -10,29 +11,29 @@ function addManager(){
   inquirer.prompt([
       {
         type: 'input',
-        name: 'managerName',
+        name: 'name',
         message: "Please Enter the Manager's name?",
       },
       {
         type: 'input',
-        name: 'managerId',
+        name: 'id',
         message: "What is the Manager's Company Id Number?",
       },
       {
         type: 'input',
-        name: 'managerEmail',
+        name: 'email',
         message: "What is the Manager's Email Address?",
       },
       {
         type: 'input',
-        name: 'managerOffice',
+        name: 'office',
         message: "What is the Manager's Office Number",
       },
    
     ])
     .then((answers) => {
-      const manager = new Manager(answers);
-      console.log(manager);
+      const manager = new Manager(answers.name,answers.id,answers.email,answers.office);
+      directory.push(manager);
       promptToAddEmployee();
     });
 }
@@ -41,29 +42,29 @@ function addEngineer() {
   inquirer.prompt([
       {
         type: 'input',
-        name: 'engineerName',
+        name: 'name',
         message: "Please Enter the Engineer's name?",
       },
       {
         type: 'input',
-        name: 'engineerId',
+        name: 'id',
         message: "What is the Engineer's Company Id Number?",
       },
       {
         type: 'input',
-        name: 'engineerEmail',
+        name: 'email',
         message: "What is the Engineer's Email Address?",
       },
       {
         type: 'input',
-        name: 'engineerGithub',
+        name: 'github',
         message: "What is the Engineer's GitHub username?",
       },
    
     ])
     .then((answers) => {
       const engineer = new Engineer(answers);
-      console.log(engineer);
+      directory.push(engineer);
       promptToAddEmployee();
     });
 };
@@ -72,29 +73,29 @@ function addIntern(){
   inquirer.prompt([
       {
         type: 'input',
-        name: 'internName',
+        name: 'name',
         message: "Please Enter the Intern's name?",
       },
       {
         type: 'input',
-        name: 'internId',
+        name: 'id',
         message: "What is the Intern's Company Id Number?",
       },
       {
         type: 'input',
-        name: 'internEmail',
+        name: 'email',
         message: "What is the Intern's Email Address?",
       },
       {
         type: 'input',
-        name: 'internSchool',
+        name: 'school',
         message: "What school did the Intern attend?",
       },
    
     ])
     .then((answers) => {
       const intern = new Intern(answers);
-      console.log(intern);
+      directory.push(intern);
       promptToAddEmployee();
     });
 };
@@ -115,6 +116,7 @@ function promptToAddEmployee() {
       addIntern();
     } else {
       console.log('Finished adding employees');
+      console.log(directory);
     }
   });
 }
