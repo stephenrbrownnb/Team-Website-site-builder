@@ -1,56 +1,125 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const manager = require('./HR/manager.js');
-const generateHTML = ({ managerName, managerId, managerEmail, managerOffice }) =>
-  `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-  <title>Document</title>
-</head>
-<body>
-  <header class="p-5 mb-4 header bg-light">
-    <div class="container">
-      <h1 class="display-4">Hi! My name is ${managerName}</h1>
-      <p class="lead">I am from ${managerId}.</p>
-      <h3>Example heading <span class="badge bg-secondary">Contact Me</span></h3>
-      <ul class="list-group">
-        <li class="list-group-item">My GitHub username is ${managerEmail}</li>
-        <li class="list-group-item">LinkedIn: ${managerOffice}</li>
-      </ul>
-    </div>
-  </header>
-</body>
-</html>`;
+const Manager = require('./lib/manager.js');
+const Engineer = require('./lib/engineer');
+const Intern = require('./lib/intern');
 
-inquirer
-  .prompt([
+
+function addManager(){
+  console.log('Adding a Manager');
+  inquirer.prompt([
+      {
+        type: 'input',
+        name: 'managerName',
+        message: "Please Enter the Manager's name?",
+      },
+      {
+        type: 'input',
+        name: 'managerId',
+        message: "What is the Manager's Company Id Number?",
+      },
+      {
+        type: 'input',
+        name: 'managerEmail',
+        message: "What is the Manager's Email Address?",
+      },
+      {
+        type: 'input',
+        name: 'managerOffice',
+        message: "What is the Manager's Office Number",
+      },
+   
+    ])
+    .then((answers) => {
+      const manager = new Manager(answers);
+      console.log(manager);
+      promptToAddEmployee();
+    });
+}
+function addEngineer() {
+  console.log('Adding an Engineer');
+  inquirer.prompt([
+      {
+        type: 'input',
+        name: 'engineerName',
+        message: "Please Enter the Engineer's name?",
+      },
+      {
+        type: 'input',
+        name: 'engineerId',
+        message: "What is the Engineer's Company Id Number?",
+      },
+      {
+        type: 'input',
+        name: 'engineerEmail',
+        message: "What is the Engineer's Email Address?",
+      },
+      {
+        type: 'input',
+        name: 'engineerGithub',
+        message: "What is the Engineer's GitHub username?",
+      },
+   
+    ])
+    .then((answers) => {
+      const engineer = new Engineer(answers);
+      console.log(engineer);
+      promptToAddEmployee();
+    });
+};
+function addIntern(){
+  console.log('Adding an Intern');
+  inquirer.prompt([
+      {
+        type: 'input',
+        name: 'internName',
+        message: "Please Enter the Intern's name?",
+      },
+      {
+        type: 'input',
+        name: 'internId',
+        message: "What is the Intern's Company Id Number?",
+      },
+      {
+        type: 'input',
+        name: 'internEmail',
+        message: "What is the Intern's Email Address?",
+      },
+      {
+        type: 'input',
+        name: 'internSchool',
+        message: "What school did the Intern attend?",
+      },
+   
+    ])
+    .then((answers) => {
+      const intern = new Intern(answers);
+      console.log(intern);
+      promptToAddEmployee();
+    });
+};
+
+function promptToAddEmployee() {
+  inquirer.prompt([
     {
-      type: 'input',
-      name: 'managerName',
-      message: "Please Enter the Manager's name?",
-    },
-    {
-      type: 'input',
-      name: 'managerId',
-      message: "What is the Manager's Company Id Number?",
-    },
-    {
-      type: 'input',
-      name: 'managerEmail',
-      message: "What is the Manager's Email Address?",
-    },
-    {
-      type: 'input',
-      name: 'managerOffice',
-      message: "What is the Manager's Office Number",
-    },
- 
-  ]);
+      type: 'list',
+      name: 'employeeType',
+      message: 'What type of employee would you like to add?',
+      choices: ['Engineer', 'Intern', 'Finished adding employees']
+    }
+  ])
   .then((answers) => {
-    const manager = new Manager(answers);
-    console.log(manager);
-  
+    if (answers.employeeType === 'Engineer') {
+      addEngineer();
+    } else if (answers.employeeType === 'Intern') {
+      addIntern();
+    } else {
+      console.log('Finished adding employees');
+    }
   });
+}
+function teamBuilder(){
+console.log("Welcome to the team Website Builder");
+addManager();
+};
+teamBuilder();
