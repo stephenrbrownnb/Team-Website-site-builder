@@ -4,6 +4,7 @@ const Manager = require('./lib/manager.js');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 const directory = [];
+const generateHTML = require(`./lib/generateHTML`);
 
 
 function addManager(){
@@ -100,7 +101,7 @@ function addIntern(){
     });
 };
 
-function promptToAddEmployee() {
+function promptToAddEmployee(writeToFile) {
   inquirer.prompt([
     {
       type: 'list',
@@ -115,13 +116,21 @@ function promptToAddEmployee() {
     } else if (answers.employeeType === 'Intern') {
       addIntern();
     } else {
-      console.log('Finished adding employees');
-      console.log(directory);
+      writeToFile(`index.html`, generateHTML(directory));
     }
   });
+  function writeToFile (fileName, data) {
+    fs.writeFile(fileName, data, (error) =>
+        error ? console.error(error) : console.log(`Writing File.`)
+    );
+  };
 }
 function teamBuilder(){
 console.log("Welcome to the team Website Builder");
 addManager();
 };
+
+
 teamBuilder();
+
+module.exports = directory;
