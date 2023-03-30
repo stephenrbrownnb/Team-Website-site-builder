@@ -64,7 +64,7 @@ function addEngineer() {
    
     ])
     .then((answers) => {
-      const engineer = new Engineer(answers);
+      const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
       directory.push(engineer);
       promptToAddEmployee();
     });
@@ -95,7 +95,7 @@ function addIntern(){
    
     ])
     .then((answers) => {
-      const intern = new Intern(answers);
+      const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
       directory.push(intern);
       promptToAddEmployee();
     });
@@ -116,6 +116,7 @@ function promptToAddEmployee(writeToFile) {
     } else if (answers.employeeType === 'Intern') {
       addIntern();
     } else {
+     console.log(directory);
       writeToFile(`index.html`, generateHTML(directory));
     }
   });
